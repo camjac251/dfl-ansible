@@ -73,6 +73,6 @@
         dest: ~/Desktop/DeepFaceLab_Linux/DeepFaceLab
         version: master
     - name: Install DeepFaceLab Dependencies
-      command: "source {{ conda_env_conda_dir }}/bin/activate {{ conda_env_name }} && python -m pip install -r ./DeepFaceLab/requirements-cuda.txt"
+      shell: "source {{ conda_env_conda_dir }}/bin/activate {{ conda_env_name }} && python -m pip install -r ./DeepFaceLab/requirements-cuda.txt"
       args:
         chdir: "~/Desktop/DeepFaceLab_Linux/"
