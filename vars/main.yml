@@ -4,4 +4,5 @@
 ansible_sudo_pass:
 conda_env_name: deepfacelab
 conda_env_environment: deepfacelab.yml
+conda_env_conda_dir: /usr/local/anaconda
 nvidia_driver_skip_reboot: true
