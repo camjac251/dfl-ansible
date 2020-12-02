@@ -2,7 +2,7 @@
 - name: Initial Setup
   hosts: localhost
   vars_files:
-    - main.yml
+  - "./vars/main.yml"
   tasks:
     - name: Update and upgrade apt packages
       become: true
