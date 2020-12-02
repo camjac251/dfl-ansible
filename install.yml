@@ -62,8 +62,6 @@
     - name: Create DeepFaceLab Anaconda Environment
       include_role:
         name: andrewrothstein.conda-env
-    - name: Activate DeepFaceLab Anaconda Environment
-      shell: /etc/profile.d/conda-env-activate-{{ conda_env_name }}.sh
     - name: Clone DFL Linux repo
       git:
         repo: https://github.com/nagadit/DeepFaceLab_Linux.git
@@ -75,6 +73,6 @@
         dest: ~/Desktop/DeepFaceLab_Linux/
         version: master
     - name: Install DeepFaceLab Dependencies
-      command: "python -m pip install -r ./DeepFaceLab/requirements-cuda.txt"
+      command: "source {{ conda_env_conda_dir }}/bin/activate {{conda_env_name}} && python -m pip install -r ./DeepFaceLab/requirements-cuda.txt"
       args:
         chdir: "~/Desktop/DeepFaceLab_Linux/"
