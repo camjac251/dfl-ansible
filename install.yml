@@ -53,7 +53,8 @@
         update_cache: yes
       when: savoury1_ffmpeg4_sourcelist_status.stat.exists == False
     - name: Install Nvidia Drivers
-      become: yes
+      vars:
+        ansible_become: true
       include_role:
         name: nvidia.nvidia_driver
     - name: Install Anaconda
