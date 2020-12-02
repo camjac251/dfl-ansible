@@ -1,0 +1,7 @@
+---
+channels:
+  - main
+dependencies:
+  - python=3.7
+  - cudnn=7.6.5
+  - cudatoolkit=10.0.130

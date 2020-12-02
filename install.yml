@@ -1,0 +1,80 @@
+---
+- name: Initial Setup
+  hosts: localhost
+  vars_files:
+    - main.yml
+  tasks:
+    - name: Update and upgrade apt packages
+      become: true
+      apt:
+        upgrade: yes
+        update_cache: yes
+    - name: Install extra packages
+      become: yes
+      apt:
+        state: present
+        name:
+          - "software-properties-common"
+          - "nano"
+          - "zip"
+          - "unzip"
+          - "p7zip"
+          - "curl"
+          - "tree"
+          - "lsof"
+          - "man-db"
+          - "ksmtuned"
+          - "git"
+          - "pwgen"
+          - "htop"
+          - "iotop"
+          - "nload"
+          - "ufw"
+          - "ncdu"
+          - "mc"
+          - "screen"
+          - "tmux"
+          - "apache2-utils"
+          - "jq"
+          - "lib32z1"
+          - "moreutils"
+        ignore_errors: yes
+    - name: Check if savoury1/ffmpeg4 PPA is already present
+      become: yes
+      stat:
+        path: "/etc/apt/sources.list.d/ppa_savoury1_ffmpeg4_{{ansible_distribution_release}}.list"
+      register: savoury1_ffmpeg4_sourcelist_status
+
+    - name: Add savoury1/ffmpeg4 PPA
+      become: yes
+      apt_repository:
+        repo: 'ppa:savoury1/ffmpeg4'
+        state: 'present'
+        update_cache: yes
+      when: savoury1_ffmpeg4_sourcelist_status.stat.exists == False
+    - name: Install Nvidia Drivers
+      become: yes
+      include_role:
+        name: nvidia.nvidia_driver
+    - name: Install Anaconda
+      include_role:
+        name: andrewrothstein.anaconda
+    - name: Create DeepFaceLab Anaconda Environment
+      include_role:
+        name: andrewrothstein.conda-env
+    - name: Activate DeepFaceLab Anaconda Environment
+      script: /etc/profile.d/conda-env-activate-{{ conda_env_name }}.sh
+    - name: Clone DFL Linux repo
+      git:
+        repo: https://github.com/nagadit/DeepFaceLab_Linux.git
+        dest: ~/Desktop/
+        version: master
+    - name: Clone DeepFaceLab repo
+      git:
+        repo: https://github.com/iperov/DeepFaceLab.git
+        dest: ~/Desktop/DeepFaceLab_Linux/
+        version: master
+    - name: Install DeepFaceLab Dependencies
+      command: "python -m pip install -r ./DeepFaceLab/requirements-cuda.txt"
+      args:
+        chdir: "~/Desktop/DeepFaceLab_Linux/"
