@@ -63,7 +63,7 @@
       include_role:
         name: andrewrothstein.conda-env
     - name: Activate DeepFaceLab Anaconda Environment
-      script: /etc/profile.d/conda-env-activate-{{ conda_env_name }}.sh
+      shell: /etc/profile.d/conda-env-activate-{{ conda_env_name }}.sh
     - name: Clone DFL Linux repo
       git:
         repo: https://github.com/nagadit/DeepFaceLab_Linux.git
