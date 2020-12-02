@@ -38,7 +38,6 @@
           - "jq"
           - "lib32z1"
           - "moreutils"
-        ignore_errors: yes
     - name: Check if savoury1/ffmpeg4 PPA is already present
       become: yes
       stat:
