@@ -66,6 +66,10 @@
     - name: Install Anaconda
       include_role:
         name: andrewrothstein.anaconda
+    - name: Conda Initialization
+      shell: "conda init bash"
+      args:
+        executable: /bin/bash
     - name: Create DeepFaceLab Anaconda Environment
       include_role:
         name: andrewrothstein.conda-env
