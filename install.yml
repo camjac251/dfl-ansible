@@ -42,7 +42,7 @@
     - name: Check if savoury1/ffmpeg4 PPA is already present
       become: yes
       stat:
-        path: "/etc/apt/sources.list.d/ppa_savoury1_ffmpeg4_{{ansible_distribution_release}}.list"
+        path: "/etc/apt/sources.list.d/ppa_savoury1_ffmpeg4_{{ ansible_distribution_release }}.list"
       register: savoury1_ffmpeg4_sourcelist_status
 
     - name: Add savoury1/ffmpeg4 PPA
@@ -51,7 +51,7 @@
         repo: 'ppa:savoury1/ffmpeg4'
         state: 'present'
         update_cache: yes
-      when: savoury1_ffmpeg4_sourcelist_status.stat.exists == False
+      when: savoury1_ffmpeg4_sourcelist_status.stat.exists
     - name: Install ffmpeg
       become: yes
       apt:
